@@ -1,7 +1,7 @@
 const app = require('./app/app.js');
 const env = require('./app/config/env.js');
 
-app.listen({
+app.instance.listen({
     port: env.PORT,
     host: env.HOST,
 }, (err, address) => {
@@ -11,3 +11,18 @@ app.listen({
     }
     console.log(`Server is running at address ${address}`);
 });
+
+const SIGNALS = ['SIGINT', 'SIGTERM'];
+
+SIGNALS.forEach(signal => {
+    process.on(signal, () => {
+        console.info(`Received ${signal}, stopping server`);
+        app.instance.close(() => {
+            console.info("Server stopped, disconnecting from database server");
+            app.db.then(db => db.disconnect().then(() => {
+                console.info("Shutting down");
+                process.exit(0);
+            }));
+        });
+    });
+})
