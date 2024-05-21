@@ -17,8 +17,10 @@
   },
   "homepage": "https://github.com/github-imply869/node-api#readme",
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "dotenv": "^16.4.5",
     "fastify": "^4.27.0",
+    "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.4.0"
   },
   "devDependencies": {

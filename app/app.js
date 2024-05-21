@@ -1,11 +1,11 @@
 const fastify = require('fastify');
 const mongoose = require('mongoose');
-const dotenv = require('dotenv');
+const env = require('./config/env');
+const authRoute = require('./auth/route');
 
-dotenv.config();
 const app = fastify();
 
-mongoose.connect(process.env.DB_CONN).then(() => {
+mongoose.connect(env.DB_CONN).then(() => {
     console.log('Database connected succesfully');
 }).catch(err => {
     console.error('Database did not connect', err);
@@ -16,6 +16,10 @@ app.get('/', (_request, reply) => {
     return reply.code(200).send({
         message: "Server is up and running"
     });
+});
+
+app.register(authRoute, {
+    prefix: '/auth',
 });
 
 module.exports = app;

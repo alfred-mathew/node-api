@@ -1,11 +1,9 @@
 const app = require('./app/app.js');
-const dotenv = require('dotenv');
-
-dotenv.config();
+const env = require('./app/config/env.js');
 
 app.listen({
-    port: process.env.PORT,
-    host: process.env.HOST,
+    port: env.PORT,
+    host: env.HOST,
 }, (err, address) => {
     if (err) {
         console.error(`Server error: ${err}`);
